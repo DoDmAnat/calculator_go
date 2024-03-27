@@ -45,14 +45,10 @@ func convertToArabic(romanNum string) int {
 }
 
 func convertToRoman(arabicNum int) string {
-	conversions := []struct {
-		value int
-		digit string
+	var allRoman = []struct {
+		digit int
+		roman string
 	}{
-		{1000, "M"},
-		{900, "CM"},
-		{500, "D"},
-		{400, "CD"},
 		{100, "C"},
 		{90, "XC"},
 		{50, "L"},
@@ -63,12 +59,14 @@ func convertToRoman(arabicNum int) string {
 		{4, "IV"},
 		{1, "I"},
 	}
-
 	romanNum := ""
-	for _, conversion := range conversions {
-		for arabicNum >= conversion.value {
-			romanNum += conversion.digit
-			arabicNum -= conversion.value
+	for arabicNum > 0 {
+		for _, pair := range allRoman {
+			digit, roman := pair.digit, pair.roman
+			for arabicNum >= digit {
+				romanNum += roman
+				arabicNum -= digit
+			}
 		}
 	}
 	return romanNum
